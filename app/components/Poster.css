@@ -1,0 +1,15 @@
+.fallback-text {
+    bottom: 0;
+    box-sizing: border-box;
+    font-size: 1.5em;
+    font-weight: 500;
+    left: 8%;
+    margin: 0;
+    overflow: hidden;
+    padding: 0 0 10%;
+    position: absolute;
+    right: 8%;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

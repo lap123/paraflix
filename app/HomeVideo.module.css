@@ -1,0 +1,28 @@
+.mainVideoContainer {
+    display: block;
+    position: relative;
+    margin-bottom: 20px;
+    padding-bottom: 40%;
+}
+
+.videoInner {
+    position: absolute;
+    height: 56.25vw;
+    width: 100%;
+    z-index: 0;
+}
+
+.vignette {
+    position: absolute;
+    z-index: 8;
+    background-color: transparent;
+    background-image: linear-gradient(180deg,hsla(0,0%,8%,0) 0,hsla(0,0%,8%,.15) 15%,hsla(0,0%,8%,.35) 29%,hsla(0,0%,8%,.58) 44%,#141414 68%,#141414);
+    background-position: 0 top;
+    background-repeat: repeat-x;
+    background-size: 100% 100%;
+    bottom: -1px;
+    height: 14.7vw;
+    opacity: 1;
+    top: auto;
+    width: 100%;
+}

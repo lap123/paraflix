@@ -8,6 +8,12 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      translate: {
+        'fullx2': '200%',
+        'fullx3': '300%',
+        'fullx4': '400%',
+        'fullx5': '500%',
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

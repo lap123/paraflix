@@ -1,0 +1,43 @@
+.container {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.inner {
+    bottom: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    left: 4%;
+    position: absolute;
+    top: 0;
+    width: 36%;
+    z-index: 10;
+}
+
+.title {
+    margin-bottom: 1.2vw;
+    min-height: 7.2vw;
+    line-height: 4vw;
+    position: relative;
+}
+
+.title p {
+    font-size: 4vw;
+    font-weight: 500;
+}
+
+.description {
+    color: #fff;
+    font-size: 1.2vw;
+    font-weight: 400;
+    line-height: normal;
+    margin-top: .1vw;
+    text-shadow: 2px 2px 4px rgba(0,0,0,.45);
+    width: 100%;
+} 
