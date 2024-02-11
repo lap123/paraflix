@@ -9,21 +9,33 @@ import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/24/solid'
 import Spinner from './components/Spinner';
 import RowPoster from './RowPoster';
 import styles from './VideoRow.module.css';
+import { Movie, MovieGenre } from './types/tmdb';
 
-export default function VideoRow({ genre }) {
+interface VideoRowProps {
+    genre: MovieGenre
+}
+
+interface MovieResponse {
+    page: number,
+    total_pages: number,
+    total_results: number,
+    results: Movie[]
+}
+
+export default function VideoRow({ genre }: VideoRowProps) {
     const [scrollClicked, setScrollClicked] = useState<number>(0);
     const [scrollCount, setScrollCount] = useState<number>(0);
 
     const {isPending: isMovieListPending, data: movieList } = useQuery({
         queryKey: ['movieListByGenre', genre.name],
         queryFn: async () => {
-            const { data } = await axios.get(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&with_genres=${genre.id}&api_key=${process.env.NEXT_PUBLIC_TMDB_APIKEY}`);
+            const { data } = await axios.get<MovieResponse>(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&with_genres=${genre.id}&api_key=${process.env.NEXT_PUBLIC_TMDB_APIKEY}`);
             return data;
         },
     });
 
     useEffect(() => {
-        let timeoutId = null;
+        let timeoutId:NodeJS.Timeout;
 
         if (scrollClicked !== 0) {
             timeoutId = setTimeout(() => setScrollClicked(0), 750);

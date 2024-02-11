@@ -2,7 +2,11 @@ import React from 'react';
 import { PlayCircleIcon, PlusCircleIcon, HandThumbUpIcon, ArrowDownCircleIcon } from '@heroicons/react/24/solid';
 import cx from 'classnames';
 
-export default function PreviewDetails({ className }) {
+interface PreviewDetailsProps {
+    className?: string
+}
+
+export default function PreviewDetails({ className }: PreviewDetailsProps) {
     return (
         <div className={cx("p-4 text-sm transform-none bg-zinc-900", className)}>
             <div className="mx-3 flex justify-between">

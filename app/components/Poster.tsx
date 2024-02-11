@@ -3,9 +3,14 @@
 import React from 'react';
 import Image from 'next/image';
 
+import { Movie } from '../types/tmdb';
 import './Poster.css';
 
-export default function Poster({ movie }) {
+interface PosterProps {
+    movie: Movie
+}
+
+export default function Poster({ movie }: PosterProps) {
     return (
         <div>
             <Image

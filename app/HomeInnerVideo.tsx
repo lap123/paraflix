@@ -5,13 +5,24 @@ import YouTube, { YouTubePlayer, YouTubeProps } from 'react-youtube';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 
+import { Video } from './types/tmdb';
 import Spinner from './components/Spinner';
 import styles from './HomeInnerVideo.module.css';
 
-export default function HomeInnerVideo({ movieId, isPaused }) {
-    const playerRef = useRef(null);
+interface HomeInnerVideoProps {
+    movieId: number,
+    isPaused: boolean
+}
+
+interface VideoListResponse {
+    id: number,
+    results: Video[]
+}
+
+export default function HomeInnerVideo({ movieId, isPaused }: HomeInnerVideoProps) {
+    const playerRef = useRef<YouTubePlayer>(null);
     
-    const onPlayerReady = (event: YouTubePlayer) => {
+    const onPlayerReady: YouTubeProps['onReady'] = (event) => {
         event.target.playVideo();
     };
 
@@ -35,14 +46,14 @@ export default function HomeInnerVideo({ movieId, isPaused }) {
     const {isPending: isVideoListPending, data: videoList } = useQuery({
         queryKey: ['videoList', movieId],
         queryFn: async () => {
-            const { data } = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${process.env.NEXT_PUBLIC_TMDB_APIKEY}`);
+            const { data } = await axios.get<VideoListResponse>(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${process.env.NEXT_PUBLIC_TMDB_APIKEY}`);
             return data;
         },
         enabled: !!movieId,
     });
 
     const video = useMemo(() => {
-            if (videoList?.results?.length > 0)
+            if (videoList && videoList.results?.length > 0)
                 return videoList.results.filter(v => v.site === "YouTube")[0];
             else
                 return null;
@@ -58,7 +69,7 @@ export default function HomeInnerVideo({ movieId, isPaused }) {
             playerRef.current.internalPlayer.playVideo();
     }, [isPaused, playerRef]);
 
-    return isVideoListPending
+    return isVideoListPending || !video
         ? <Spinner />
         : (
         <YouTube

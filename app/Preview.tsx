@@ -36,13 +36,14 @@ export default function Preview() {
                 setScale(1);
 
                 // and then remove the preview overlay after 400ms
-                setTimeout(() => setCurrentPreview({}), 400);
+                if (setCurrentPreview)
+                    setTimeout(() => setCurrentPreview({}), 400);
             }}
         >
             <div
                 className={styles.focus}
                 style={{
-                    top: y + window.scrollY,
+                    top: (y || 0) + window.scrollY,
                     left: x,
                     width: width,
                     transform: `scale(${scale})`,

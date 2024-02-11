@@ -3,21 +3,32 @@ import React, { useContext } from 'react';
 import Poster from './components/Poster';
 import styles from './RowPoster.module.css';
 import { CurrentPreviewContext } from './contexts';
+import { Movie } from './types/tmdb';
 
-export default function RowPoster({ movie, index }) {
+interface RowPosterProps {
+    movie: Movie,
+    index: number
+}
+
+export default function RowPoster({ movie, index }: RowPosterProps) {
     const { movie: previewMovie, setCurrentPreview } = useContext(CurrentPreviewContext);
 
     return (
         <div className={styles.container}>
             <div    
-                onMouseEnter={(e) => {
-                    const sliderWidth = e.target.closest("div[class*=slider]").clientWidth;
+                onMouseEnter={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+                    if (!setCurrentPreview)
+                        return;
+                    
+                    const sliderWidth = e.currentTarget.closest("div[class*=slider]")?.clientWidth || 0;
+
+                    const target = e.target as HTMLImageElement;
 
                     const setPreview = () => setCurrentPreview({
                         movie,
-                        x: e.target.x - Math.abs(Math.floor(index/6)) * sliderWidth,
-                        y: e.target.y,
-                        width: e.target.width,
+                        x: target.x - Math.abs(Math.floor(index/6)) * sliderWidth,
+                        y: target.y,
+                        width: target.width,
                         isRowFirst: index%6 === 0,
                         isRowLast: index%6 === 5,
                     });

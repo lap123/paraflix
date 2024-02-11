@@ -25,7 +25,7 @@ export default function HomeVideo() {
             threshold: 0.75,
           };
           
-          const observerCB = (entries) => {
+          const observerCB = (entries: IntersectionObserverEntry[]) => {
             entries.forEach(entry => {
                 setPaused(paused => !entry.isIntersecting);
             });

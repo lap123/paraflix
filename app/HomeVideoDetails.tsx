@@ -1,8 +1,13 @@
 import React from 'react';
 
+import { Movie } from './types/tmdb';
 import styles from './HomeVideoDetails.module.css';
 
-export default function HomeVideoDetails({ movie }) {
+interface HomeVideoDetailsProps {
+    movie: Movie
+}
+
+export default function HomeVideoDetails({ movie }: HomeVideoDetailsProps) {
     return (
         <div className={styles.container}>
             <div className={styles.inner}>

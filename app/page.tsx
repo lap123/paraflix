@@ -5,10 +5,10 @@ import React, { Fragment, useState, useMemo } from 'react';
 import HomeVideo from './HomeVideo';
 import AllVideoRows from './AllVideoRows';
 import Preview from './Preview';
-import { CurrentPreviewContext } from './contexts';
+import { CurrentPreviewContext, PreviewContext } from './contexts';
 
 export default function Home() {
-    const [currentPreview, setCurrentPreview] = useState({});
+    const [currentPreview, setCurrentPreview] = useState<PreviewContext>({});
 
     const previewContext = useMemo(() => ({
         ...currentPreview,
