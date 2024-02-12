@@ -2,15 +2,17 @@ import React, { useContext, useState, useEffect } from 'react';
 import cx from 'classnames';
 
 import Poster from './components/Poster';
+import HomeInnerVideo from './HomeInnerVideo';
 import { CurrentPreviewContext } from './contexts';
 
 import styles from './Preview.module.css';
 import PreviewDetails from './PreviewDetails';
 
-const ScaleRatio = 1.6;
+const DefaultScaleRatio = 1;
+const ZoomScaleRatio = 1.6;
 
 export default function Preview() {
-    const [ scale, setScale ] = useState(1);
+    const [ scale, setScale ] = useState(DefaultScaleRatio);
     const { movie, x, y, width, isRowFirst, isRowLast, setCurrentPreview } = useContext(CurrentPreviewContext);
 
     useEffect(() => {
@@ -18,7 +20,7 @@ export default function Preview() {
             return;
 
         // Trigger the scaling effect after 400ms
-        const timeoutId = setTimeout(() => setScale(ScaleRatio), 400);
+        const timeoutId = setTimeout(() => setScale(ZoomScaleRatio), 400);
 
         return () => clearTimeout(timeoutId);
     }, [movie]);
@@ -50,8 +52,14 @@ export default function Preview() {
                     transformOrigin: isRowFirst ? "left center" : isRowLast ? "right center" : "center center",
                 }}
             >
-                <Poster movie={movie} />
-                <PreviewDetails className={cx({'hidden': scale === 1})}/>
+                <div className="relative">
+                     <HomeInnerVideo movieId={movie.id} isPaused={false} />
+                    <Poster movie={movie} className={cx(styles.poster, {
+                        'opacity-100': scale === DefaultScaleRatio,
+                        'opacity-0': scale === ZoomScaleRatio,
+                     })} />
+                </div>
+                <PreviewDetails className={cx({'opacity-0': scale === DefaultScaleRatio})}/>
             </div>
         </div>
     );

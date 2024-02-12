@@ -13,10 +13,14 @@ const random = (max: number) => {
     return Math.ceil(Math.random() * max);
 };
 
-export default function HomeVideo() {
+interface HomeVideoProps {
+    forcePause: boolean
+}
+
+export default function HomeVideo({ forcePause }: HomeVideoProps) {
     const [isPaused, setPaused] = useState<boolean>(false);
 
-    const videoElementRef = useRef<HTMLInputElement>(null);
+    const videoElementRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const options = {
@@ -25,20 +29,20 @@ export default function HomeVideo() {
             threshold: 0.75,
           };
           
-          const observerCB = (entries: IntersectionObserverEntry[]) => {
+        const observerCB = (entries: IntersectionObserverEntry[]) => {
             entries.forEach(entry => {
                 setPaused(paused => !entry.isIntersecting);
             });
-          };
+        };
 
-          const observer = new IntersectionObserver(observerCB, options);
-          if (videoElementRef.current)
+        const observer = new IntersectionObserver(observerCB, options);
+        if (videoElementRef.current)
             observer.observe(videoElementRef.current);
 
-          return () => {
+        return () => {
             if (videoElementRef.current)
                 observer.unobserve(videoElementRef.current);
-          };
+        };
     }, []);
 
     const {isPending: isMovieListPending, data: movieList } = useQuery({
@@ -53,13 +57,13 @@ export default function HomeVideo() {
         const videoIndex = movieList?.results?.length > 0 ? random(movieList.results.length) : 0;
         return movieList?.results?.length > 0 ? movieList.results[videoIndex] : null;
     }, [movieList]);
-    
+
     return (
         <div className={styles.mainVideoContainer}>
             {movie && <HomeVideoDetails movie={movie} />}
             <div ref={videoElementRef} className={styles.videoInner}>
                 {isMovieListPending && <Spinner />}
-                {movie && <HomeInnerVideo movieId={movie.id} isPaused={isPaused} />}
+                {movie && <HomeInnerVideo movieId={movie.id} isPaused={isPaused || forcePause } />}
     
                 <div className={styles.vignette} />
             </div>

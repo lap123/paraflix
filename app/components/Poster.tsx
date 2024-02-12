@@ -8,12 +8,13 @@ import tmdbLoader from '../../loaders/tmdb';
 import './Poster.css';
 
 interface PosterProps {
-    movie: Movie
+    movie: Movie,
+    className?: string
 }
 
-export default function Poster({ movie }: PosterProps) {
+export default function Poster({ movie, className }: PosterProps) {
     return (
-        <div>
+        <div className={className}>
             <Image
                 width={341}
                 height={192}

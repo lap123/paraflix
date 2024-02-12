@@ -17,7 +17,8 @@ export default function Home() {
 
     return (
         <Fragment>
-            <HomeVideo />
+            {/* Force pause the Main video player when there is a preview running */}
+            <HomeVideo forcePause={!!currentPreview.movie} />
             <CurrentPreviewContext.Provider value={previewContext}>
                 <AllVideoRows />
                 <Preview />
