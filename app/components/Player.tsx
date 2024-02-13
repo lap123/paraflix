@@ -38,7 +38,7 @@ export default function Player({ videoId, isPaused }: PlayerProps) {
             .then((playerState: number) => {
                 if (isPaused && playerState === YouTube.PlayerState.PLAYING)
                     playerRef.current.internalPlayer.pauseVideo();
-                else if (playerState === YouTube.PlayerState.PAUSED)
+                else if (!isPaused && playerState === YouTube.PlayerState.PAUSED)
                     playerRef.current.internalPlayer.playVideo();
             });
     }, [isPaused, playerRef]);
